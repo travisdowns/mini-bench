@@ -19,7 +19,7 @@ if [ ! -f ./rpk ]; then
 fi
 
 ./rpk container purge
-./rpk container start --nodes=$NODES > start_out
+./rpk container start --nodes=$NODES --set rpk.additional_start_flags="--smp=1" --retries=10 > start_out
 ./rpk cluster info -b
 
 BROKERS=$(grep 'RPK_BROKERS' start_out | grep -Eo '127[0-9:,.]*')
