@@ -2,9 +2,8 @@
 
 set -euo pipefail
 
-echo "GB_TO_PRODUCE=${GB_TO_PRODUCE:=10}"
-echo "GB_TO_PRODUCE=${GB_TO_PRODUCE:=10}"
-echo "NODES=${NODES:=1}"
+echo "GB_TO_PRODUCE=${GB_TO_PRODUCE:=100}"
+echo "NODES=${NODES:=3}"
 
 BENCH=./librdkafka/examples/rdkafka_performance
 
