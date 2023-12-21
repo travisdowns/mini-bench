@@ -2,8 +2,10 @@
 
 set -euo pipefail
 
-echo "GB_TO_PRODUCE=${GB_TO_PRODUCE:=100}"
+echo "GB_TO_PRODUCE=${GB_TO_PRODUCE:=20}"
 echo "NODES=${NODES:=3}"
+echo "SIZE=${SIZE:=150000}"
+MESSAGES=$((GB_TO_PRODUCE * 10**9 / SIZE))
 
 BENCH=./librdkafka/examples/rdkafka_performance
 
@@ -29,8 +31,6 @@ echo "BROKERS=$BROKERS"
 ./rpk topic delete t1 --brokers=$BROKERS
 ./rpk topic create t1 -p1 --brokers=$BROKERS
 
-SIZE=150000
-MESSAGES=$((GB_TO_PRODUCE * 10**9 / SIZE))
 echo "Writing $GB_TO_PRODUCE GB ($MESSAGES messages x $SIZE bytes)"
 
 set -x
