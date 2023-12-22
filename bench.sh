@@ -21,21 +21,20 @@ if [ ! -f ./rpk ]; then
 fi
 
 ./rpk container purge
-./rpk container start --nodes=$NODES --set rpk.additional_start_flags="--smp=1" --retries=10 > start_out
-./rpk cluster info -b
+./rpk container start --nodes=$NODES --set 'rpk.additional_start_flags=[--smp=1,--memory=4G]' --retries=10 > start_out
 
 BROKERS=$(grep 'RPK_BROKERS' start_out | grep -Eo '127[0-9:,.]*')
-
 echo "BROKERS=$BROKERS"
+export RPK_BROKERS=$BROKERS
 
-./rpk topic delete t1 --brokers=$BROKERS
-./rpk topic create t1 -p1 --brokers=$BROKERS
+./rpk cluster info
+./rpk topic delete t1
+./rpk topic create t1
 
 echo "Writing $GB_TO_PRODUCE GB ($MESSAGES messages x $SIZE bytes)"
 
-set -x
-$BENCH -P -t t1 -s $SIZE -p0 -u -b$BROKERS -c $MESSAGES
+( set -x; $BENCH -P -t t1 -s $SIZE -p0 -u -b$BROKERS -c $MESSAGES )
 
 echo "Consuming $GB_TO_PRODUCE GB ($MESSAGES messages x $SIZE bytes)"
 
-$BENCH -C -t t1 -p0 -u -b$BROKERS -c$MESSAGES
+( set -x; $BENCH -C -t t1 -p0 -u -b$BROKERS -c$MESSAGES )
