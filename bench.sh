@@ -34,6 +34,8 @@ export RPK_BROKERS=$BROKERS
 ./rpk topic delete t1
 ./rpk topic create t1 -p"$PARTITIONS" -r"$REPLICAS"
 
+sleep 3s
+
 echo "Writing $GB_TO_PRODUCE GB ($MESSAGES messages x $SIZE bytes)"
 
 ( set -x; $BENCH -P -t t1 -s $SIZE -p0 -u -b$BROKERS -c $MESSAGES )
