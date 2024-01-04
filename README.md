@@ -1,7 +1,7 @@
 Basic rdkafka_performance (from librdkafka/examples) benchmark.
 
-It produces (no consumption) a fixed amount of data to a single partition topic, 
-in a second phase consumes it with a single consumer. 
+In phase 1 it produces (no consumption during this phase) a fixed amount of data to a single partition topic, 
+then in a second phase consumes it (no producton) with a single consumer. 
 
 ### Usage
 
